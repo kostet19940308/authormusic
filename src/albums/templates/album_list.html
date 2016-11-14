@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Список альбомов{% endblock %}
+
+{% block content %}
+
+    <form>
+        {{ search_form.search.errors }}
+        {{ search_form.search.label_tag }} {{ search_form.search }} <br>
+        {{ search_form.sort.label_tag }} {{ search_form.sort }}
+        <input type="submit" value="Искать">
+    </form>
+    {% if not object_list %}
+        <h2>Ничего не найдено</h2>
+    {% endif %}
+    {% for album in object_list %}
+        <p>
+            <a href="{{ album.author.get_absolute_url }}"> <b>{{ album.author }}:</b> </a><br>
+            <a href="{{ album.get_absolute_url }}"> <b>{{ album.name }}</b> </a>
+        </p>
+        <br><br>
+
+    {% endfor %}
+{% endblock %}

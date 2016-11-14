@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+<b><p>{% block title %}{{ album.author }}{% endblock %}</p></b>
+
+
+
+{% block content %}
+    {% if album.photo %}
+            <img src="{{ album.photo.url }}" width="250px"> </br>
+    {% endif %}
+    <b>{{album.name}}</b><br>
+    <b>{{album.genre}}</b><br>
+    <b> <a href="./../../users/{{album.author.username}}"> {{album.author.username}}</a> </b> <br>
+
+    <b>{{album.information}}</b><br><br>
+
+    {{ album.created_in|time:"H:i" }} {{ album.created_in|date:"d.m.y" }}<br>
+
+    <p>Horns = {{ album.count_horns }}</p>
+
+    {% url 'albums:album_edit' pk=album.id as edit_url %}
+    <a href="{{ edit_url }}">Edit</a>
+
+
+    {%if album.get_comments.all %}
+    <h1> Comments: </h1> <br>
+
+    {% for comment in album.get_comments.all %}
+        <b> <a href="./../../users/{{comment.author.username}}"> {{comment.author.username}}</a>: </b> <br>
+        <p>{{comment.text}}</p>
+        <i>{{comment.created_in}}</i> <br><br>
+    {% endfor %}
+    {%endif%}
+
+    {%if album.get_tracks.all %}
+    <h1> Tracks: </h1> <br>
+
+    {% for track in album.get_tracks.all %}
+        <p>{{track.name}}</p><br>
+    {% endfor %}
+    {%endif%}
+
+{% endblock %}

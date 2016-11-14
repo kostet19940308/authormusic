@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+<body>
+    {% block content %}
+        {%  if user.avatar %}
+            <img src = '{{ user.avatar.url }}' width="200px"> <br>
+        {% endif %}
+        <b>Username: </b> {{ user.username }} <br>
+        <a href="{% url 'mainpage:password_change' %}"> Сменить пароль </a> <br>
+        <form method="post"> {% csrf_token %}
+            <b>{{ form.email.label_tag }}</b> {{ form.email }} <br>
+            <b>{{ form.first_name.label_tag }}</b> {{ form.first_name }} <br>
+            <b>{{ form.last_name.label_tag }}</b> {{ form.last_name }} <br>
+            <b>{{ form.avatar.label_tag }}</b> {{ form.avatar }} <br>
+            <input type="submit" value="Принять исправления">
+        </form>
+
+    {%endblock%}
+
+</body>

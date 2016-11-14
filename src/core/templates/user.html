@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user_account.username }}{% endblock %}
+
+<body>
+    {% block content %}
+        <b>Username: </b> {{ user_account.username }} <br>
+        <b>Name: </b> {{ user_account.get_full_name }}<br>
+        {%  if user_account.avatar %}
+            <img src = '{{ user_account.avatar.url }}' width="200px"> <br>
+        {% endif %}
+        {% if user_account == user %} <a href="{% url 'mainpage:user_edit' slug=user_account.username %}"> Edit </a>  {% endif %}<br>
+        {% if user_account.get_pubs.all %}
+            <b>Albums: </b> <br>
+            <p>
+                {%  for album in user_account.get_pubs.all %}
+                    <a href="{{ album.get_absolute_url }}"> {{ album.name }} </a> <br>
+                {% endfor %}
+            </p>
+        {% endif %}
+
+    {%endblock%}
+
+</body>

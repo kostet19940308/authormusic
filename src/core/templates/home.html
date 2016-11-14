@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+<title>{% block title %}Homepage{% endblock %}</title>
+
+<body>
+    {% block content %}
+        {% url 'mainpage:login' as login_url %}
+        {% url 'mainpage:register' as register_url %}
+        {% url 'mainpage:logout' as logout_url %}
+        {% url 'albums:create_album' as newalbum_url %}
+
+        {% if user.is_anonymous %}
+            Вы не авторизованы <br>
+            <a href='{{ login_url }}'> Авторизация </a> <br>
+            <a href='{{ register_url }}'> Регистрация </a>
+        {% else %}
+            {% url 'users:user' slug=user.username as profile %}
+            Привет, <a href="{{ profile }}" >{{ user.username }}</a> <br>
+            <a href="{{ newalbum_url }}"> Добавить альбом </a> <br>
+            <a href="{{ logout_url }}"> Выйти из аккаунта </a> <br>
+            <a href="./albums/list"><h1>Welcome to AuthorMusic</h1>
+        {% endif %}
+
+    {%endblock%}
+
+
+
+</body>
