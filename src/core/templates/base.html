@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+{% load staticfiles %}
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title><br>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
++   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-flex.css' %}"
 </head>
 <body>
 <h1>AuthorMusic</h1>
