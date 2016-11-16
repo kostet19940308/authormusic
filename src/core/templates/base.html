@@ -5,13 +5,47 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title><br>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-+   <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-flex.css' %}"
+    +
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}">
 </head>
 <body>
-<h1>AuthorMusic</h1>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">AuthorMusic</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a class="nav-item nav-link" href="{% url 'albums:list' %}">Альбомы</a></li>
+            {% if user.is_authenticated %}
+            <li><a class="nav-item nav-link" href="{% url 'albums:create_album'%}">Добавить альбом</a></li>
+            <li><a class="nav-item nav-link" href="{{ user.get_absolute_url }}">Профиль</a></li>
+            {% endif %}
 
-    <div>
-        {% block content %}{% endblock %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            {% url 'users:user' slug=user.username as profile %}
+            <p class="navbar-text">Signed in as <a href="{{ profile }}" class="navbar-link">{{ user.username }}</a></p>
+            <li><a class="nav-item nav-link" href="{% url 'mainpage:logout' %}">Выйти из аккаунта</a></li>
+            {% else %}
+            <li><a class="nav-item nav-link" href="{% url 'mainpage:register' %}">Регистрация</a></li>
+            <li><a class="nav-item nav-link" href="{% url 'mainpage:login' %}">Авторизация</a></li>
+            <!--<li><button type="button" onclick='location.href="{% url 'mainpage:logout' %}"' class="btn btn-default navbar-btn">Войти</button></li> -->
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<br><br>
+
+<div>
+    {% block content %}{% endblock %}
 </div>
+<footer style="text-align: center; padding: 0.25rem 0; border-top: .05rem solid #e5e5e5; margin-bottom: 0px;">
+    <p>Footer</p>
+    <p>
+        <a href="#">Back to top</a>
+    </p>
+</footer>
 </body>
 </html>

@@ -4,20 +4,42 @@
 
 <body>
     {% block content %}
-        <b>Username: </b> {{ user_account.username }} <br>
-        <b>Name: </b> {{ user_account.get_full_name }}<br>
-        {%  if user_account.avatar %}
-            <img src = '{{ user_account.avatar.url }}' width="200px"> <br>
-        {% endif %}
-        {% if user_account == user %} <a href="{% url 'mainpage:user_edit' slug=user_account.username %}"> Edit </a>  {% endif %}<br>
-        {% if user_account.get_pubs.all %}
-            <b>Albums: </b> <br>
-            <p>
-                {%  for album in user_account.get_pubs.all %}
-                    <a href="{{ album.get_absolute_url }}"> {{ album.name }} </a> <br>
-                {% endfor %}
-            </p>
-        {% endif %}
+<div id="user-profile-2" class="user-profile tabbable">
+        <div class="tab-content row no-border padding-24 col-xs-12">
+            <div class="col-sm-3 center">
+                <img class="editable img-responsive profile-picture" alt="200x200" id="avatar2"
+                     src="{{ user_account.avatar.url }}"
+                     style="max-width: 200px; max-height: 200px;">
+                {% if user_account == user %}
+                    <a href="{% url 'mainpage:user_edit' slug=user_account.username%}" class="btn btn-sm btn-block btn-success">
+                        <i class="ace-icon fa fa-pencil bigger-120"></i>
+                        <span class="bigger-110">Edit</span>
+                    </a>
+                {% endif %}
+                <hr class="featurette-divider">
+            </div><!-- /.col -->
+
+            <div class="col-sm-9">
+                <h4 class="blue middle"> {{ user_account.username }} </h4>
+                <div class="profile-user-info profile-info-row">
+                    <div class="profile-info-name"> Имя</div>
+                    <div class="profile-info-value"> {{ user_account.get_full_name }} </div>
+                </div>
+            </div><!-- /.col -->
+
+            <div class="col-sm-6 widget-header widget-box transparent">
+                {% if user_account.get_pubs.all %}
+                    <h5 class="widget-title smaller"> Albums: </h5>
+                    <ul class="widget-body widget-main">
+                        {% for album in user_account.get_pubs.all %}
+                            <li><a href="{{ album.get_absolute_url }}">
+                                {{ album.pub_date|date:'d.m.y' }} </a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+</div>
 
     {%endblock%}
 
