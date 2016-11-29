@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from django.http import JsonResponse
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic import DetailView, ListView, UpdateView
@@ -40,6 +42,10 @@ class EditAlbum(UpdateView):
 
     def get_queryset(self):
         return Album.objects.filter(author=self.request.user)
+
+    def form_valid(self, form):
+        response = super(EditAlbum, self).form_valid(form)
+        return HttpResponse('OK')
 
 class CreateAlbum(CreateView):
     model = Album

@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title><br>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-    +
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/main.css' %}">
+    <script src="{% static 'jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'core/js/base.js' %}"></script>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -37,7 +40,21 @@
 </nav>
 
 <br><br>
-
+{% if user.is_authenticated %}
+<div id="side-wrapper">
+    <ul class="sidebar-nav">
+       <li class="sidebar-brand">
+           {{user.username}}
+       </li>
+        <li>
+            <img src="{{user.avatar.url}}" width="250px">
+        </li>
+        <li>
+            <p>{{user_account.get_full_name}}</p>
+        </li>
+    </ul>
+</div>
+{% endif %}
 <div>
     {% block content %}{% endblock %}
 </div>
