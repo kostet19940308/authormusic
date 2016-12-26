@@ -27,7 +27,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-info" value="Сохранить">
+                    <input type="submit" class="btn btn-info" value="Сохранить  ">
                 </div>
             </div>
         </div>
@@ -60,15 +60,21 @@
     {% endfor %}
     {%endif%}
 
+    <form method="post">{% csrf_token %}
+        <b>Добавь комментарий:</b><br>
+        {{form.text}}
+        <input type="submit" value="Добавить">
+    </form>
+
     {%if album.get_tracks.all %}
     <h1> Tracks: </h1> <br>
 
     {% for track in album.get_tracks.all %}
         <p>{{track.name}}</p>
         <p>{{track.url}}</p>
-        <!--<audio controls>-->
-            <!--<source src="{{track.url}}" type="audio/ogg; codecs=vorbis">-->
-        <!--</audio><br>-->
+        <audio controls>
+            <source src="{{track.file.url}}" type="audio/ogg; codecs=vorbis">
+        </audio><br>
     {% endfor %}
     {%endif%}
 

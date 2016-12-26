@@ -16,8 +16,19 @@
         <p>
             <a href="{{ album.author.get_absolute_url }}"> <b>{{ album.author }}:</b> </a><br>
             <a href="{{ album.get_absolute_url }}"> <b>{{ album.name }}</b> </a>
+            Buyers = {{ album.buyers }}
         </p>
         <br><br>
 
     {% endfor %}
+
+    <p>
+        {% for page in paginator.page_range %}
+            {% if page_obj.number != page %}
+                <a href="?page={{ page }}">{{ page }}</a>
+            {% else %}
+                {{ page }}
+            {% endif %}
+        {% endfor %}
+    </p>
 {% endblock %}

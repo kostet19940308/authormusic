@@ -1,4 +1,4 @@
-<form method="post" class="ajax-form" action="{% url 'albums:album_edit' pk=album.pk%}">
+<form method="post" class="ajax-form" action="{% url 'albums:album_edit' pk=album.pk%}" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in form %}
     <div>{{field.label_tag}}{{field}}</div>

@@ -2,14 +2,17 @@ body{
 
 }
 
+
 #side-wrapper{
+    border-left-style: solid;
+    border-left-color: black;
     float: right;
     z-index: 1000;
     position: fixed;
-    right: 250px;
-    width: 0;
+    right: 20px;
+    width: 270px;
     height: 100%;
-    margin-right: -250px;
+    margin-right: 0;
     overflow-y: auto;
     background: #ffffff;
 }
@@ -63,9 +66,9 @@ body{
 }
 
 .sidebar-nav > .sidebar-brand {
-    height: 65px;
-    font-size: 18px;
-    line-height: 60px;
+    height: 50px;
+    font-size: 30px;
+    line-height: 40px;
 }
 
 .sidebar-nav > .sidebar-brand a {

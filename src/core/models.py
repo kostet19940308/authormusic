@@ -2,9 +2,12 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
-# Create your models here.
 from django.urls import reverse
+from django.utils.cache import caches
+
+cache = caches['default']
 
 
 class User(AbstractUser):
@@ -20,3 +23,14 @@ class User(AbstractUser):
 
     def get_pubs(self):
         return self.albums
+
+    def user_rating(self):
+        key = 'rating_{}'.format(self.id)
+        rating = cache.get(key)
+        if rating is None:
+            rating = 0
+            for album in self.albums.all():
+                rating += album.count_horns()
+                rating += 3*album.count_buyers()
+            cache.set(key, rating, 10)
+        return rating

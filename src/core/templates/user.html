@@ -7,9 +7,11 @@
 <div id="user-profile-2" class="user-profile tabbable">
         <div class="tab-content row no-border padding-24 col-xs-12">
             <div class="col-sm-3 center">
+                {% if user_account.avatar %}
                 <img class="editable img-responsive profile-picture" alt="200x200" id="avatar2"
                      src="{{ user_account.avatar.url }}"
                      style="max-width: 200px; max-height: 200px;">
+                {% endif %}
                 {% if user_account == user %}
                     <a href="{% url 'mainpage:user_edit' slug=user_account.username%}" class="btn btn-sm btn-block btn-success">
                         <i class="ace-icon fa fa-pencil bigger-120"></i>
@@ -24,6 +26,8 @@
                 <div class="profile-user-info profile-info-row">
                     <div class="profile-info-name"> Имя</div>
                     <div class="profile-info-value"> {{ user_account.get_full_name }} </div>
+                    <div class="profile-info-name"> Рейтинг</div>
+                    <div class="profile-info-value"> {{ user_account.user_rating}} </div>
                 </div>
             </div><!-- /.col -->
 

@@ -40,25 +40,27 @@
 </nav>
 
 <br><br>
-{% if user.is_authenticated %}
-<div id="side-wrapper">
-    <ul class="sidebar-nav">
-       <li class="sidebar-brand">
-           {{user.username}}
-       </li>
-        <li>
-            <img src="{{user.avatar.url}}" width="250px">
-        </li>
-        <li>
-            <p>{{user_account.get_full_name}}</p>
-        </li>
-    </ul>
-</div>
-{% endif %}
+<!--{% if user.is_authenticated %}-->
+<!--<div id="side-wrapper">-->
+    <!--<ul class="sidebar-nav">-->
+       <!--<li class="sidebar-brand">-->
+           <!--{{user.username}}-->
+       <!--</li>-->
+        <!--{% if user.avatar %}-->
+        <!--<li>-->
+            <!--<img src="{{user.avatar.url}}" width="250px">-->
+        <!--</li>-->
+        <!--{% endif%}-->
+        <!--<li>-->
+            <!--<p>{{user.get_full_name}}</p>-->
+        <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
+<!--{% endif %}-->
 <div>
     {% block content %}{% endblock %}
 </div>
-<footer style="text-align: center; padding: 0.25rem 0; border-top: .05rem solid #e5e5e5; margin-bottom: 0px;">
+<footer style="text-align: center; padding: 0.25rem 0; border-top: .05rem solid #e5e5e5; margin-bottom: 100px;">
     <p>Footer</p>
     <p>
         <a href="#">Back to top</a>
