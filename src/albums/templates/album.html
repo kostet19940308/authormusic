@@ -47,7 +47,7 @@
 
     {% if album.author == user %}
         {% url 'albums:album_edit' pk=album.id as edit_url %}
-        <a class="album-edit-link" href="{{ edit_url }}">Edit</a>
+        <a href="{{ edit_url }}">Edit</a>
     {% endif %}
 
     {%if album.get_comments.all %}

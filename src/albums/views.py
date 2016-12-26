@@ -7,7 +7,7 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView, ListView, UpdateView
 from comments.models import Comment
 from .forms import SearchForm
-from .models import Album
+from .models import Album, Track
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
@@ -25,7 +25,6 @@ class AlbumList(ListView):
     def get_queryset(self):
         queryset = Album.objects.all().shown_for(self.request.user)
         queryset = queryset.select_related('author').annotate(buyers = models.Count('bought_by'))
-        #queryset = Album.objects.all()
         if self.search_form.is_valid():
             queryset = queryset.filter(name__icontains=self.search_form.cleaned_data['search'])
             queryset = queryset.order_by(self.search_form.cleaned_data['sort'])
@@ -63,14 +62,11 @@ class AlbumView(CreateView):
 class EditAlbum(UpdateView):
     model = Album
     template_name = 'album_edit.html'
-    fields = ('name','genre','photo','information', 'file')
+    fields = ('name','genre','photo','information')
 
     def get_queryset(self):
         return Album.objects.filter(author=self.request.user)
 
-    def form_valid(self, form):
-        response = super(EditAlbum, self).form_valid(form)
-        return HttpResponse('OK')
 
 class CreateAlbum(CreateView):
     model = Album
@@ -84,12 +80,36 @@ class CreateAlbum(CreateView):
     def get_success_url(self, **kwargs):
         return reverse('albums:detail', kwargs={'pk':self.object.id})
 
-# class CreateCommentView(CreateView):
-#     model = Comment
-#     fields = ('text')
-#     def get_success_url(self):
-#         return reverse('albums:album')
-#     def form_valid(self, form):
-#         #form.instance.album = self.
-#         form.instance.author = self.request.user
-#         return super(CreateCommentView, self).form_valid(form)
+class AddTrack(CreateView):
+    model = Track
+    template_name = 'add_track.html'
+    context_object_name = 'album'
+    fields = ('name', 'file')
+
+    def dispatch(self, request, pk = None, *args, **kwargs):
+        self.album = get_object_or_404(Album, id=pk)
+        return super(AddTrack, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(AddTrack, self).get_context_data(**kwargs)
+        context['album'] = self.album
+        return context
+
+    def form_valid(self, form):
+        form.instance.album = self.album
+        return super(AddTrack, self).form_valid(form)
+
+    def get_success_url(self, **kwargs):
+        return reverse('albums:album_edit', kwargs={'pk':self.album.id})
+
+class EditTrack(UpdateView):
+    model = Track
+    template_name = 'edit_track.html'
+    fields = ('name', 'file')
+
+    def dispatch(self, request, album_id = None, *args, **kwargs):
+        self.album = get_object_or_404(Album, id=album_id)
+        return super(EditTrack, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self, **kwargs):
+        return reverse('albums:album_edit', kwargs={'pk':self.album.id})

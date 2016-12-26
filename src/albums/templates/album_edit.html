@@ -1,7 +1,32 @@
-<form method="post" class="ajax-form" action="{% url 'albums:album_edit' pk=album.pk%}" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for field in form %}
-    <div>{{field.label_tag}}{{field}}</div>
-    {% endfor %}
-    <input type="submit" value="Исправить">
-</form>
+{% extends "base.html" %}
+
+{% block title %}{{ album.name }}{% endblock %}
+
+<body>
+    {% block content %}
+        {% if form.errors %}
+                <p class="error">Пожалуйста исправьте нижеприведённые ошибки.</p>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>{{field.label_tag}}{{field}}</div>
+            {% endfor %}
+
+            {% for track in album.get_tracks.all %}
+                <p>{{track.name}}</p>
+                <p>{{track.url}}</p>
+                <audio controls>
+                    <source src="{{track.file.url}}" type="audio/ogg; codecs=vorbis">
+                </audio>
+                <a href="{%url 'albums:edit_track' album_id=album.id pk=track.id %}">ADD</a><br>
+            {% endfor %}
+
+            {% url 'albums:add_track' pk=album.id as add_url %}
+            <a href="{{ add_url }}">ADD</a><br>
+            <input type="submit" value="Исправить">
+        </form>
+    {%endblock%}
+
+</body>
+
